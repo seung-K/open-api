@@ -34,7 +34,7 @@
                 <v-col cols="12">
                     <v-pagination
                         v-model="page"
-                        :length="pageCount"
+                        :length="10"
                         @input="changePage">
                     </v-pagination>
                 </v-col>
@@ -82,7 +82,7 @@ export default {
     },
 
     mounted() {
-        this.serviceKey = '?' + encodeURIComponent('serviceKey') + '=' + this.apiAuthKey
+        this.serviceKey = '?' + encodeURIComponent('ServiceKey') + '=' + this.apiAuthKey
         this.getCityCodeList()
         this.getCheckItemCode()
     },
@@ -175,11 +175,11 @@ export default {
             }
         },
         
-        // 병원 정보 조회
+        // 검진항목별 예약 정보 조회
         async getDetailInfo(info) {
             let reqParam = { ykiho: info.hmcNo }
             try {
-                const result = await this.sendAxios('/HmcSpecificInfoService/getWorkHourInfoDetail', reqParam)
+                const result = await this.sendAxios('/HmcSpecificInfoService/getHchkItemResveInfoDetail', reqParam)
                 if (result.status == 200) {
                     this.detailInfo = result.data.response.body.item
                     this.detailInfoPopup = true
@@ -248,11 +248,6 @@ export default {
                         locAddr: item.locAddr,      // 주소
                     }
                 })
-            }
-        },
-        pageCount: {
-            get() {
-                return this.totalPages
             }
         }
     }
